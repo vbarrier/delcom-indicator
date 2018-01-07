@@ -26,10 +26,10 @@ class DelcomIndicator {
     this.device = this.findDevice();
     if (this.device) {
       this.deviceConnection = new hid.HID(this.device.path);
-      this.deviceConnection.write([this.write, 34, 0, this.ledIntensity]);
-      this.deviceConnection.write([this.write, 34, 1, this.ledIntensity]);
-      this.deviceConnection.write([this.write, 34, 2, this.ledIntensity]);
-      this.deviceConnection.write([this.write, 34, 3, this.ledIntensity]);
+      this.deviceConnection.write([this.write8bytes, 34, 0, this.ledIntensity]);
+      this.deviceConnection.write([this.write8bytes, 34, 1, this.ledIntensity]);
+      this.deviceConnection.write([this.write8bytes, 34, 2, this.ledIntensity]);
+      this.deviceConnection.write([this.write8bytes, 34, 3, this.ledIntensity]);
     }
   }
 
