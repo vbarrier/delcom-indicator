@@ -13,23 +13,26 @@ class DelcomIndicator {
     this.off = 0xFF;
     this.buzzerOn = 1;
     this.buzzerOff = 0;
-    this.ledIntensity = 80;
+    this.defaultIntensity = 80;
+    this.greenIntensityCode = 0;
+    this.redIntensityCode = 1;
+    this.blueIntensityCode = 2;
 
     this.write8bytes = 101;
     this.write16bytes = 102;
     this.solidCommand = 2;
     this.flashCommand = 20;
     this.buzzCommand = 70;
+    this.intensityCommand = 34;
     this.readButtonCommand = 8;
     this.readButtonCommandLength = 8;
 
     this.device = this.findDevice();
     if (this.device) {
       this.deviceConnection = new hid.HID(this.device.path);
-      this.deviceConnection.write([this.write8bytes, 34, 0, this.ledIntensity]);
-      this.deviceConnection.write([this.write8bytes, 34, 1, this.ledIntensity]);
-      this.deviceConnection.write([this.write8bytes, 34, 2, this.ledIntensity]);
-      this.deviceConnection.write([this.write8bytes, 34, 3, this.ledIntensity]);
+      this.intensityGreen(this.defaultIntensity);
+      this.intensityRed(this.defaultIntensity);
+      this.intensityBlue(this.defaultIntensity);
     }
   }
 
@@ -81,6 +84,10 @@ class DelcomIndicator {
     this.writeToDevice([this.write8bytes, this.solidCommand, colorBits]);
   }
 
+  intensityColor(color, intensity) {
+    this.writeToDevice([this.write8bytes, this.intensityCommand, color, intensity]);
+  }
+
   solidGreen() {
     this.solidColor(this.green);
   }
@@ -95,6 +102,18 @@ class DelcomIndicator {
 
   solidYellow() {
     this.solidBlue();
+  }
+
+  intensityGreen(intensity){ 
+      this.intensityColor(this.greenIntensityCode, intensity);
+  }
+
+  intensityRed(intensity){ 
+      this.intensityColor(this.redIntensityCode, intensity);
+  }
+
+  intensityBlue(intensity){ 
+      this.intensityColor(this.blueIntensityCode, intensity);
   }
 
   flashGreen() {
