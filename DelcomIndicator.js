@@ -13,6 +13,7 @@ class DelcomIndicator {
     this.off = 0xFF;
     this.buzzerOn = 1;
     this.buzzerOff = 0;
+    this.ledIntensity = 80;
 
     this.write8bytes = 101;
     this.write16bytes = 102;
@@ -25,6 +26,10 @@ class DelcomIndicator {
     this.device = this.findDevice();
     if (this.device) {
       this.deviceConnection = new hid.HID(this.device.path);
+      this.deviceConnection.write([this.write, 34, 0, this.ledIntensity]);
+      this.deviceConnection.write([this.write, 34, 1, this.ledIntensity]);
+      this.deviceConnection.write([this.write, 34, 2, this.ledIntensity]);
+      this.deviceConnection.write([this.write, 34, 3, this.ledIntensity]);
     }
   }
 
